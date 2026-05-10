@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Cinema - Bảng Điều Khiển</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" th:href="@{/dashboard}"><i class="bi bi-film"></i> Smart Cinema</a>
+    <div class="d-flex align-items-center">
+                <span class="text-light me-3">
+                    Xin chào, <strong th:text="${user.userProfile.fullName}" class="text-warning"></strong>!
+                </span>
+      <a th:href="@{/logout}" class="btn btn-outline-light btn-sm"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="alert alert-info border-info shadow-sm d-flex align-items-center">
+        <i class="bi bi-person-badge fs-4 me-3"></i>
+        <div>
+          Vai trò của bạn:
+          <strong th:text="${user.role}" class="text-uppercase text-danger"></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4" th:if="${user.role == 'ADMIN'}">
+      <div class="card shadow-sm h-100 border-0 border-top border-primary border-4">
+        <div class="card-body">
+          <h5 class="card-title text-primary"><i class="bi bi-shield-lock"></i> Nghiệp vụ Admin</h5>
+          <p class="card-text text-muted">Toàn quyền hệ thống, xem báo cáo và lên lịch chiếu.</p>
+          <div class="d-grid gap-2">
+            <a th:href="@{/admin/movies}" class="btn btn-outline-primary text-start"><i class="bi bi-camera-reels"></i> Quản lý Phim & Lịch chiếu</a>
+            <a th:href="@{/admin/reports}" class="btn btn-outline-primary text-start"><i class="bi bi-bar-chart-line"></i> Xem báo cáo doanh thu</a>
+            <a th:href="@{/admin/users}" class="btn btn-outline-primary text-start"><i class="bi bi-people"></i> Quản lý Người dùng</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4" th:if="${user.role == 'STAFF'}">
+      <div class="card shadow-sm h-100 border-0 border-top border-warning border-4">
+        <div class="card-body">
+          <h5 class="card-title text-warning"><i class="bi bi-person-badge"></i> Nghiệp vụ Nhân viên</h5>
+          <p class="card-text text-muted">Hỗ trợ khách hàng và xử lý vé tại quầy.</p>
+          <div class="d-grid gap-2">
+            <a th:href="@{/staff/tickets}" class="btn btn-outline-warning text-dark text-start"><i class="bi bi-upc-scan"></i> Kiểm tra & Xuất vé tại quầy</a>
+            <a th:href="@{/profile}" class="btn btn-outline-warning text-dark text-start"><i class="bi bi-person-lines-fill"></i> Xem & Sửa Hồ sơ cá nhân</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4" th:if="${user.role == 'CUSTOMER'}">
+      <div class="card shadow-sm h-100 border-0 border-top border-success border-4">
+        <div class="card-body">
+          <h5 class="card-title text-success"><i class="bi bi-ticket-perforated"></i> Nghiệp vụ Khách hàng</h5>
+          <p class="card-text text-muted">Tra cứu phim, đặt vé và xem lại lịch sử giao dịch.</p>
+          <div class="d-grid gap-2">
+            <a th:href="@{/movies}" class="btn btn-outline-success text-start"><i class="bi bi-search"></i> Xem phim & Chọn ghế đặt vé</a>
+            <a th:href="@{/history}" class="btn btn-outline-success text-start"><i class="bi bi-clock-history"></i> Xem lịch sử & Hủy vé</a>
+            <a th:href="@{/profile}" class="btn btn-outline-success text-start"><i class="bi bi-person-lines-fill"></i> Xem & Sửa Hồ sơ cá nhân</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
