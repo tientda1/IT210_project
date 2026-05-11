@@ -3,9 +3,11 @@ package btvn.it210_project.controller;
 import btvn.it210_project.model.entity.Movie;
 import btvn.it210_project.service.MovieService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -53,8 +55,15 @@ public class AdminMovieController {
 
     // 4. Xử lý lưu phim (Dùng cho cả Thêm và Sửa)
     @PostMapping("/save")
-    public String saveMovie(@ModelAttribute("movie") Movie movie, HttpSession session) {
+    public String saveMovie(@Valid @ModelAttribute("movie") Movie movie,
+                            BindingResult bindingResult,
+                            HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
+
+        // Nếu có lỗi do nhập sai quy tắc -> Trả lại thẳng trang Form để hiện lỗi (không redirect)
+        if (bindingResult.hasErrors()) {
+            return "admin/movie-form";
+        }
 
         movieService.saveMovie(movie);
         return "redirect:/admin/movies";

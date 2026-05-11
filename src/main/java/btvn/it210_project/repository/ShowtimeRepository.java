@@ -19,6 +19,7 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findOverlappingShowtimes(@Param("roomId") Integer roomId,
                                             @Param("checkStart") LocalDateTime checkStart,
                                             @Param("checkEnd") LocalDateTime checkEnd);
+
     // Tìm các suất chiếu của 1 phim cụ thể, diễn ra sau thời điểm hiện tại, sắp xếp theo giờ tăng dần
     List<Showtime> findByMovie_MovieIdAndStartTimeAfterOrderByStartTimeAsc(Integer movieId, LocalDateTime time);
 }

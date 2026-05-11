@@ -30,15 +30,21 @@ public class DataSeeder implements CommandLineRunner {
 
         // 1. Tạo Thể loại
         if (genreRepository.count() == 0) {
-            Genre g1 = new Genre(); g1.setGenreName("Hành động");
-            Genre g2 = new Genre(); g2.setGenreName("Kinh dị");
+            Genre g1 = new Genre();
+            g1.setGenreName("Hành động");
+            Genre g2 = new Genre();
+            g2.setGenreName("Kinh dị");
             genreRepository.saveAll(List.of(g1, g2));
         }
 
         // 2. Tạo Phòng chiếu
         if (roomRepository.count() == 0) {
-            Room r1 = new Room(); r1.setRoomName("Cinema 01"); r1.setCapacity(50);
-            Room r2 = new Room(); r2.setRoomName("Cinema 02"); r2.setCapacity(100);
+            Room r1 = new Room();
+            r1.setRoomName("Cinema 01");
+            r1.setCapacity(50);
+            Room r2 = new Room();
+            r2.setRoomName("Cinema 02");
+            r2.setCapacity(100);
             roomRepository.saveAll(List.of(r1, r2));
         }
 
@@ -78,7 +84,7 @@ public class DataSeeder implements CommandLineRunner {
                     for (int j = 1; j <= seatsPerRow; j++) {
                         Seat seat = new Seat();
                         seat.setRoom(room);
-                        seat.setSeatName(String.valueOf((char)(rowChar + i)) + j); // Ghép tên: A1, A2...
+                        seat.setSeatName(String.valueOf((char) (rowChar + i)) + j); // Ghép tên: A1, A2...
                         seatsToSave.add(seat);
                     }
                 }

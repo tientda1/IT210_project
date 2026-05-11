@@ -12,36 +12,40 @@
         <div class="col-md-8">
             <div class="card shadow border-0">
                 <div class="card-header bg-primary text-white py-3">
-                    <h4 class="mb-0" th:text="${movie.movieId == null ? 'Thêm Phim Mới' : 'Cập Nhật Thông Tin Phim'}"></h4>
+                    <h4 class="mb-0"
+                        th:text="${movie.movieId == null ? 'Thêm Phim Mới' : 'Cập Nhật Thông Tin Phim'}"></h4>
                 </div>
                 <div class="card-body p-4">
                     <form th:action="@{/admin/movies/save}" method="post" th:object="${movie}">
-                        <input type="hidden" th:field="*{movieId}" />
+                        <input type="hidden" th:field="*{movieId}"/>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Tiêu đề phim</label>
-                            <input type="text" th:field="*{title}" class="form-control" placeholder="VD: Avengers: Endgame" required />
+                            <input type="text" th:field="*{title}" class="form-control"
+                                   placeholder="VD: Avengers: Endgame" required/>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Mô tả nội dung</label>
-                            <textarea th:field="*{description}" class="form-control" rows="4" placeholder="Tóm tắt nội dung phim..."></textarea>
+                            <textarea th:field="*{description}" class="form-control" rows="4"
+                                      placeholder="Tóm tắt nội dung phim..."></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Thời lượng (phút)</label>
-                                <input type="number" th:field="*{durationMinutes}" class="form-control" required />
+                                <input type="number" th:field="*{durationMinutes}" class="form-control" required/>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Ngày khởi chiếu</label>
-                                <input type="date" th:field="*{releaseDate}" class="form-control" required />
+                                <input type="date" th:field="*{releaseDate}" class="form-control" required/>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold">Đường dẫn Poster (URL)</label>
-                            <input type="text" th:field="*{posterUrl}" class="form-control" placeholder="https://image.com/poster.jpg" />
+                            <input type="text" th:field="*{posterUrl}" class="form-control"
+                                   placeholder="https://image.com/poster.jpg"/>
                         </div>
 
                         <div class="d-flex gap-2 border-top pt-4">

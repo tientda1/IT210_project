@@ -15,7 +15,8 @@
                 </div>
                 <div class="card-body p-4">
 
-                    <div th:if="${successMsg}" class="alert alert-success fw-bold text-center" th:text="${successMsg}"></div>
+                    <div th:if="${successMsg}" class="alert alert-success fw-bold text-center"
+                         th:text="${successMsg}"></div>
 
                     <div th:if="${error}" class="alert alert-danger text-center fw-bold" th:text="${error}"></div>
 
@@ -23,16 +24,20 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Tài khoản:</label>
-                            <input type="text" th:field="*{username}" class="form-control" placeholder="Nhập tên đăng nhập"
-                                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''" />
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                            <input type="text" th:field="*{username}" class="form-control"
+                                   placeholder="Nhập tên đăng nhập"
+                                   th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}"
+                                 th:errors="*{username}"></div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold">Mật khẩu:</label>
-                            <input type="password" th:field="*{password}" class="form-control" placeholder="Nhập mật khẩu"
-                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" />
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            <input type="password" th:field="*{password}" class="form-control"
+                                   placeholder="Nhập mật khẩu"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Đăng nhập</button>

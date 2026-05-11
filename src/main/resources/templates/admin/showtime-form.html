@@ -33,23 +33,29 @@
                             <label class="form-label fw-bold">Phòng chiếu</label>
                             <select th:field="*{room.roomId}" class="form-select" required>
                                 <option value="" selected>-- Chọn phòng --</option>
-                                <option th:each="r : ${rooms}" th:value="${r.roomId}" th:text="${r.roomName + ' (' + r.capacity + ' ghế)'}"></option>
+                                <option th:each="r : ${rooms}" th:value="${r.roomId}"
+                                        th:text="${r.roomName + ' (' + r.capacity + ' ghế)'}"></option>
                             </select>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Giờ bắt đầu</label>
-                                <input type="datetime-local" th:field="*{startTime}" class="form-control" required />
+                                <input type="datetime-local" th:field="*{startTime}" class="form-control"/>
+                                <small class="text-danger fw-bold" th:if="${#fields.hasErrors('startTime')}"
+                                       th:errors="*{startTime}"></small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Giá vé (VNĐ)</label>
-                                <input type="number" th:field="*{price}" class="form-control" placeholder="80000" required />
+                                <input type="number" th:field="*{price}" class="form-control" placeholder="80000"/>
+                                <small class="text-danger fw-bold" th:if="${#fields.hasErrors('price')}"
+                                       th:errors="*{price}"></small>
                             </div>
                         </div>
 
                         <div class="alert alert-warning py-2 small">
-                            <i class="bi bi-info-circle"></i> Hệ thống sẽ tự tính giờ kết thúc và cộng thêm 30 phút dọn dẹp.
+                            <i class="bi bi-info-circle"></i> Hệ thống sẽ tự tính giờ kết thúc và cộng thêm 30 phút dọn
+                            dẹp.
                         </div>
 
                         <div class="d-flex gap-2 mt-4">

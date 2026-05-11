@@ -17,6 +17,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "AND t.booking.status = 'CONFIRMED'")
     boolean existsByShowtimeAndSeatId(@Param("showtimeId") Integer showtimeId,
                                       @Param("seatId") Integer seatId);
+
     // Lấy danh sách ID của các ghế ĐÃ BỊ MUA trong 1 suất chiếu
     @Query("SELECT t.seat.seatId FROM Ticket t WHERE t.showtime.showtimeId = :showtimeId AND t.booking.status = 'CONFIRMED'")
     List<Integer> findBookedSeatIdsByShowtime(@Param("showtimeId") Integer showtimeId);

@@ -5,11 +5,13 @@ import btvn.it210_project.repository.MovieRepository;
 import btvn.it210_project.repository.RoomRepository;
 import btvn.it210_project.service.ShowtimeService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/admin/showtimes")
@@ -49,17 +51,23 @@ public class AdminShowtimeController {
 
     // 3. Xử lý lưu Lịch chiếu và Check Xung đột
     @PostMapping("/save")
-    public String saveShowtime(@ModelAttribute("showtime") Showtime showtime,
-                               HttpSession session,
+    public String saveShowtime(@Valid @ModelAttribute("showtime") Showtime showtime,
+                               BindingResult bindingResult,
+                               HttpSession session, Model model,
                                RedirectAttributes redirectAttributes) {
         if (!isAdmin(session)) return "redirect:/login";
 
-        // Gọi hàm tạo suất chiếu (có chứa logic chống xung đột)
-        boolean isSuccess = showtimeService.createShowtime(showtime);
+        // Nếu validation thất bại (ví dụ: ngày quá khứ, giá âm)
+        if (bindingResult.hasErrors()) {
+            // Phải đẩy lại danh sách Phim và Phòng để thẻ <select> không bị trắng tinh
+            model.addAttribute("movies", movieRepository.findAll());
+            model.addAttribute("rooms", roomRepository.findAll());
+            return "admin/showtime-form";
+        }
 
+        boolean isSuccess = showtimeService.createShowtime(showtime);
         if (!isSuccess) {
-            // Dùng RedirectAttributes để gửi thông báo lỗi sang trang redirect
-            redirectAttributes.addFlashAttribute("error", "Lỗi: Phòng này đã có lịch chiếu hoặc đang dọn dẹp trong khoảng thời gian trên!");
+            redirectAttributes.addFlashAttribute("error", "Lỗi: Phòng này đã có lịch chiếu hoặc đang dọn dẹp!");
             return "redirect:/admin/showtimes/add";
         }
 

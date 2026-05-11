@@ -53,6 +53,7 @@ public class BookingService {
     public List<Booking> getCustomerHistory(Integer userId) {
         return bookingRepository.findDetailedHistoryByUserId(userId);
     }
+
     // CORE-09: Hủy vé trước 24h và Giải phóng ghế
     @Transactional
     public String cancelBooking(Integer bookingId, Integer userId) {

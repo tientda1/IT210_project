@@ -92,7 +92,7 @@
 </div>
 
 <script th:inline="javascript">
-    const pricePerSeat = [[${showtime.price}]];
+    const pricePerSeat = /*[[${showtime.price}]]*/ 0;
     let selectedSeatIds = [];
     let selectedSeatNames = [];
 

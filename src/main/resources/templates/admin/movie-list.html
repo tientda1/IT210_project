@@ -53,7 +53,8 @@
                     <td class="align-middle" th:text="${movie.durationMinutes + ' phút'}"></td>
                     <td class="align-middle" th:text="${movie.releaseDate}"></td>
                     <td class="align-middle text-center">
-                        <a th:href="@{/admin/movies/edit/{id}(id=${movie.movieId})}" class="btn btn-sm btn-outline-warning me-2">
+                        <a th:href="@{/admin/movies/edit/{id}(id=${movie.movieId})}"
+                           class="btn btn-sm btn-outline-warning me-2">
                             <i class="bi bi-pencil-square"></i> Sửa
                         </a>
                         <a th:href="@{/admin/movies/delete/{id}(id=${movie.movieId})}"

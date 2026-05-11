@@ -30,16 +30,28 @@ public class BookingController {
     private final btvn.it210_project.service.BookingService bookingService;
 
     // 1. Khách bấm "ĐẶT VÉ NGAY" -> Trả về trang chọn Ngày/Giờ chiếu
+    // 1. Khách bấm "ĐẶT VÉ NGAY" -> Trả về trang chọn Ngày/Giờ chiếu
     @GetMapping("/movie/{movieId}")
     public String selectShowtime(@PathVariable Integer movieId, Model model, HttpSession session) {
         if (session.getAttribute("loggedInUser") == null) return "redirect:/login";
 
         Movie movie = movieService.getMovieById(movieId);
-        // Chỉ lấy các suất chiếu chưa bắt đầu
         List<Showtime> showtimes = showtimeRepository.findByMovie_MovieIdAndStartTimeAfterOrderByStartTimeAsc(movieId, LocalDateTime.now());
+
+        // CORE-08: KIỂM TRA TÌNH TRẠNG "HẾT VÉ" CỦA TỪNG SUẤT CHIẾU
+        java.util.Map<Integer, Boolean> soldOutMap = new java.util.HashMap<>();
+        for (Showtime st : showtimes) {
+            int capacity = st.getRoom().getCapacity() != null ? st.getRoom().getCapacity() : 50;
+            // Đếm số ghế đã bị mua trong suất chiếu này
+            int bookedSeats = ticketRepository.findBookedSeatIdsByShowtime(st.getShowtimeId()).size();
+
+            // Nếu số vé bán ra >= sức chứa của phòng -> Đánh dấu là TRUE (Đã hết vé)
+            soldOutMap.put(st.getShowtimeId(), bookedSeats >= capacity);
+        }
 
         model.addAttribute("movie", movie);
         model.addAttribute("showtimes", showtimes);
+        model.addAttribute("soldOutMap", soldOutMap);
         return "customer/showtime-selection";
     }
 
@@ -60,6 +72,7 @@ public class BookingController {
 
         return "customer/seat-selection"; // Giao diện này ta sẽ code sau
     }
+
     // 3. Khách bấm XÁC NHẬN -> Xử lý lưu Database
     @PostMapping("/confirm")
     public String confirmBooking(@RequestParam Integer showtimeId,
@@ -84,6 +97,7 @@ public class BookingController {
             return "redirect:/booking/showtime/" + showtimeId;
         }
     }
+
     // 4. Khách bấm HỦY VÉ
     @GetMapping("/cancel/{bookingId}")
     public String cancelBooking(@PathVariable Integer bookingId, HttpSession session,

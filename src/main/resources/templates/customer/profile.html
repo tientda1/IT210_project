@@ -13,20 +13,60 @@
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-person-lines-fill"></i> Thông tin cá nhân</h5>
+        <div class="col-md-8 col-lg-6">
+
+            <div th:if="${success}" class="alert alert-success shadow-sm">
+                <i class="bi bi-check-circle-fill"></i> <span th:text="${success}"></span>
+            </div>
+
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white py-3 text-center">
+                    <h4 class="mb-0"><i class="bi bi-person-badge"></i> THÔNG TIN TÀI KHOẢN</h4>
                 </div>
-                <div class="card-body">
-                    <p><strong>Tên đăng nhập:</strong> <span th:text="${session.loggedInUser.username}"></span></p>
-                    <p><strong>Họ và tên:</strong> <span th:text="${session.loggedInUser.userProfile.fullName}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${session.loggedInUser.userProfile.email}"></span></p>
-                    <p><strong>Số điện thoại:</strong> <span th:text="${session.loggedInUser.userProfile.phone}"></span></p>
-                    <hr>
-                    <button class="btn btn-warning w-100">Cập nhật hồ sơ (Đang phát triển)</button>
+                <div class="card-body p-4">
+                    <form th:action="@{/profile/update}" method="post">
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Tên đăng nhập</label>
+                                <input type="text" class="form-control bg-light" th:value="${user.username}" readonly>
+                                <small class="text-danger">* Không thể thay đổi</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Hạng thẻ (Quyền)</label>
+                                <input type="text" class="form-control bg-light" th:value="${user.role}" readonly>
+                            </div>
+                        </div>
+
+                        <hr class="text-muted">
+
+                        <div class="mb-3 mt-3">
+                            <label class="form-label fw-bold">Họ và Tên</label>
+                            <input type="text" name="fullName" class="form-control"
+                                   th:value="${user.userProfile != null ? user.userProfile.fullName : ''}"
+                                   placeholder="VD: Nguyễn Văn A" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Số điện thoại</label>
+                            <input type="text" name="phone" class="form-control"
+                                   th:value="${user.userProfile != null ? user.userProfile.phone : ''}"
+                                   placeholder="09xx.xxx.xxx">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Địa chỉ Email</label>
+                            <input type="email" name="email" class="form-control"
+                                   th:value="${user.userProfile != null ? user.userProfile.email : ''}"
+                                   placeholder="email@example.com">
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 fw-bold py-2">
+                            LƯU THAY ĐỔI
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

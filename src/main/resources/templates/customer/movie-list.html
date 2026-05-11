@@ -9,8 +9,9 @@
         .movie-card:hover {
             transform: scale(1.03);
             transition: 0.3s ease-in-out;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
         }
+
         .poster-img {
             height: 400px;
             object-fit: cover;
@@ -39,14 +40,18 @@
                     <h5 class="card-title fw-bold text-dark text-truncate" th:text="${movie.title}">Tên Phim</h5>
 
                     <p class="card-text text-muted small mb-2">
-                        <i class="bi bi-tags-fill text-warning"></i> Thể loại: <span th:text="${movie.genre != null ? movie.genre.genreName : 'Đang cập nhật'}"></span><br>
-                        <i class="bi bi-clock-fill text-info"></i> Thời lượng: <span th:text="${movie.durationMinutes + ' phút'}"></span>
+                        <i class="bi bi-tags-fill text-warning"></i> Thể loại: <span
+                            th:text="${movie.genre != null ? movie.genre.genreName : 'Đang cập nhật'}"></span><br>
+                        <i class="bi bi-clock-fill text-info"></i> Thời lượng: <span
+                            th:text="${movie.durationMinutes + ' phút'}"></span>
                     </p>
 
-                    <p class="card-text text-truncate" style="font-size: 0.9rem;" th:text="${movie.description}">Mô tả ngắn gọn...</p>
+                    <p class="card-text text-truncate" style="font-size: 0.9rem;" th:text="${movie.description}">Mô tả
+                        ngắn gọn...</p>
 
                     <div class="mt-auto pt-3 border-top">
-                        <a th:href="@{/booking/movie/{id}(id=${movie.movieId})}" class="btn btn-outline-success w-100 fw-bold">
+                        <a th:href="@{/booking/movie/{id}(id=${movie.movieId})}"
+                           class="btn btn-outline-success w-100 fw-bold">
                             <i class="bi bi-ticket-detailed"></i> ĐẶT VÉ NGAY
                         </a>
                     </div>

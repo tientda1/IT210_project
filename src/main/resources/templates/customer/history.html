@@ -15,8 +15,10 @@
 </nav>
 
 <div class="container mt-5 mb-5">
-    <div th:if="${success}" class="alert alert-success shadow-sm"><i class="bi bi-check-circle"></i> <span th:text="${success}"></span></div>
-    <div th:if="${error}" class="alert alert-danger shadow-sm"><i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span></div>
+    <div th:if="${success}" class="alert alert-success shadow-sm"><i class="bi bi-check-circle"></i> <span
+            th:text="${success}"></span></div>
+    <div th:if="${error}" class="alert alert-danger shadow-sm"><i class="bi bi-exclamation-triangle"></i> <span
+            th:text="${error}"></span></div>
 
     <h2 class="text-success border-bottom pb-2 fw-bold"><i class="bi bi-clock-history"></i> Lịch sử đặt vé của bạn</h2>
 
@@ -37,23 +39,28 @@
 
                     <div class="row">
                         <div class="col-md-2 text-center">
-                            <img th:src="${b.tickets[0].showtime.movie.posterUrl}" class="img-fluid rounded shadow-sm" style="max-height: 120px;" alt="Poster">
+                            <img th:src="${b.tickets[0].showtime.movie.posterUrl}" class="img-fluid rounded shadow-sm"
+                                 style="max-height: 120px;" alt="Poster">
                         </div>
                         <div class="col-md-7">
                             <h5 class="fw-bold text-dark" th:text="${b.tickets[0].showtime.movie.title}"></h5>
                             <p class="mb-1"><i class="bi bi-calendar-event text-primary"></i> Thời gian chiếu:
                                 <strong th:text="${#temporals.format(b.tickets[0].showtime.startTime, 'HH:mm - dd/MM/yyyy')}"></strong>
                             </p>
-                            <p class="mb-1"><i class="bi bi-geo-alt text-danger"></i> Phòng chiếu: <strong th:text="${b.tickets[0].showtime.room.roomName}"></strong></p>
+                            <p class="mb-1"><i class="bi bi-geo-alt text-danger"></i> Phòng chiếu: <strong
+                                    th:text="${b.tickets[0].showtime.room.roomName}"></strong></p>
                             <p class="mb-0"><i class="bi bi-ui-checks-grid text-success"></i> Ghế đã đặt:
                                 <strong class="text-success">
-                                    <span th:each="t, iterStat : ${b.tickets}" th:text="${t.seat.seatName} + ${!iterStat.last ? ', ' : ''}"></span>
+                                    <span th:each="t, iterStat : ${b.tickets}"
+                                          th:text="${t.seat.seatName} + ${!iterStat.last ? ', ' : ''}"></span>
                                 </strong>
                             </p>
                         </div>
                         <div class="col-md-3 text-end d-flex flex-column justify-content-center border-start">
-                            <p class="text-muted mb-1 small">Ngày đặt: <span th:text="${#temporals.format(b.bookingDate, 'dd/MM/yyyy')}"></span></p>
-                            <h4 class="text-danger fw-bold" th:text="${#numbers.formatDecimal(b.tickets.size() * b.tickets[0].showtime.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></h4>
+                            <p class="text-muted mb-1 small">Ngày đặt: <span
+                                    th:text="${#temporals.format(b.bookingDate, 'dd/MM/yyyy')}"></span></p>
+                            <h4 class="text-danger fw-bold"
+                                th:text="${#numbers.formatDecimal(b.tickets.size() * b.tickets[0].showtime.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></h4>
 
                             <a th:if="${b.status == 'CONFIRMED'}" th:href="@{/booking/cancel/{id}(id=${b.bookingId})}"
                                class="btn btn-outline-danger mt-2"
