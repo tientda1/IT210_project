@@ -19,18 +19,33 @@
             <div class="card border-0 shadow-sm">
                 <img th:src="${movie.posterUrl}" class="card-img-top rounded" alt="Poster">
                 <div class="card-body">
-                    <h4 class="fw-bold" th:text="${movie.title}">Tên phim</h4>
-                    <p class="text-muted"><i class="bi bi-clock"></i> <span th:text="${movie.durationMinutes + ' phút'}"></span></p>
-                    <p class="small" th:text="${movie.description}"></p>
+                    <h4 class="fw-bold mb-3" th:text="${movie.title}">Tên phim</h4>
+
+                    <p class="text-muted mb-1 small">
+                        <i class="bi bi-person-video"></i> Đạo diễn: <strong th:text="${movie.director}"></strong>
+                    </p>
+                    <p class="text-muted mb-1 small">
+                        <i class="bi bi-tags"></i> Thể loại: <strong
+                            th:text="${movie.genre != null ? movie.genre.genreName : 'Đang cập nhật'}"></strong>
+                    </p>
+                    <p class="text-muted mb-3 small">
+                        <i class="bi bi-clock"></i> Thời lượng: <span
+                            th:text="${movie.durationMinutes + ' phút'}"></span>
+                    </p>
+
+                    <hr>
+                    <p class="small text-secondary" style="text-align: justify;" th:text="${movie.description}"></p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-8">
-            <h3 class="text-success border-bottom pb-2 fw-bold"><i class="bi bi-calendar-check"></i> Chọn Suất Chiếu</h3>
+            <h3 class="text-success border-bottom pb-2 fw-bold"><i class="bi bi-calendar-check"></i> Chọn Suất Chiếu
+            </h3>
 
             <div th:if="${#lists.isEmpty(showtimes)}" class="alert alert-warning mt-4 shadow-sm">
-                <i class="bi bi-emoji-frown"></i> Rất tiếc, bộ phim này hiện tại chưa có suất chiếu nào sắp diễn ra. Bạn vui lòng quay lại sau!
+                <i class="bi bi-emoji-frown"></i> Rất tiếc, bộ phim này hiện tại chưa có suất chiếu nào sắp diễn ra. Bạn
+                vui lòng quay lại sau!
             </div>
 
             <div class="list-group mt-4">
@@ -44,10 +59,12 @@
                                 <i class="bi bi-clock-history text-success"></i>
                                 <span th:text="${#temporals.format(st.startTime, 'HH:mm - dd/MM/yyyy')}"></span>
                             </h5>
-                            <small class="text-muted"><i class="bi bi-door-open"></i> Phòng: <strong th:text="${st.room.roomName}"></strong></small>
+                            <small class="text-muted"><i class="bi bi-door-open"></i> Phòng: <strong
+                                    th:text="${st.room.roomName}"></strong></small>
                         </div>
                         <div class="text-end">
-                            <span class="fs-5 fw-bold text-danger d-block" th:text="${#numbers.formatDecimal(st.price, 0, 'COMMA', 0, 'POINT') + 'đ'}"></span>
+                            <span class="fs-5 fw-bold text-danger d-block"
+                                  th:text="${#numbers.formatDecimal(st.price, 0, 'COMMA', 0, 'POINT') + 'đ'}"></span>
                             <span class="badge bg-success">Chọn ghế <i class="bi bi-arrow-right"></i></span>
                         </div>
                     </a>
@@ -60,10 +77,12 @@
                                 <i class="bi bi-clock-history"></i>
                                 <span th:text="${#temporals.format(st.startTime, 'HH:mm - dd/MM/yyyy')}"></span>
                             </h5>
-                            <small><i class="bi bi-door-open"></i> Phòng: <strong th:text="${st.room.roomName}"></strong></small>
+                            <small><i class="bi bi-door-open"></i> Phòng: <strong
+                                    th:text="${st.room.roomName}"></strong></small>
                         </div>
                         <div class="text-end">
-                            <span class="fs-5 fw-bold text-secondary d-block" th:text="${#numbers.formatDecimal(st.price, 0, 'COMMA', 0, 'POINT') + 'đ'}"></span>
+                            <span class="fs-5 fw-bold text-secondary d-block"
+                                  th:text="${#numbers.formatDecimal(st.price, 0, 'COMMA', 0, 'POINT') + 'đ'}"></span>
                             <span class="badge bg-secondary px-3 py-2">HẾT VÉ <i class="bi bi-x-circle"></i></span>
                         </div>
                     </div>

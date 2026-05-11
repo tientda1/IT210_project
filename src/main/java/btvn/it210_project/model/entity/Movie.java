@@ -27,6 +27,8 @@ public class Movie {
     private Integer durationMinutes;
     @NotNull(message = "Ngày khởi chiếu không được để trống!")
     private LocalDate releaseDate;
+    @NotBlank(message = "Tên đạo diễn không được để trống!")
+    private String director;
     private String posterUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)

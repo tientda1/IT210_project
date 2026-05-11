@@ -21,4 +21,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     // Lấy danh sách ID của các ghế ĐÃ BỊ MUA trong 1 suất chiếu
     @Query("SELECT t.seat.seatId FROM Ticket t WHERE t.showtime.showtimeId = :showtimeId AND t.booking.status = 'CONFIRMED'")
     List<Integer> findBookedSeatIdsByShowtime(@Param("showtimeId") Integer showtimeId);
+
+    // CORE-ADVANCED: Thống kê doanh thu theo bộ phim
+    @Query("SELECT t.showtime.movie.title, SUM(t.showtime.price) " +
+            "FROM Ticket t " +
+            "WHERE t.booking.status = 'CONFIRMED' " +
+            "GROUP BY t.showtime.movie.title")
+    java.util.List<Object[]> getRevenueByMovie();
 }

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Báo Cáo Doanh Thu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}"><i class="bi bi-shield-check"></i> Admin Panel</a>
+        <a th:href="@{/dashboard}" class="btn btn-outline-light btn-sm">Quay lại Dashboard</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-white border-bottom py-3">
+            <h4 class="text-primary mb-0 fw-bold"><i class="bi bi-bar-chart-fill"></i> THỐNG KÊ DOANH THU THEO BỘ PHIM
+            </h4>
+        </div>
+        <div class="card-body p-4">
+
+            <div th:if="${#lists.isEmpty(movieTitles)}" class="alert alert-warning text-center">
+                <i class="bi bi-exclamation-circle"></i> Hiện tại chưa có dữ liệu doanh thu (chưa có vé nào được bán
+                ra).
+            </div>
+
+            <div th:unless="${#lists.isEmpty(movieTitles)}" style="position: relative; height:60vh; width:100%">
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    // Lấy dữ liệu từ Spring Boot đổ sang JS (Dùng bọc comment để không báo lỗi đỏ)
+    const labelsData = /*[[${movieTitles}]]*/ [];
+    const revenueData = /*[[${revenues}]]*/ [];
+
+    if (labelsData.length > 0) {
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar', // Biểu đồ hình cột
+            data: {
+                labels: labelsData, // Tên phim nằm dưới trục X
+                datasets: [{
+                    label: 'Tổng doanh thu (VNĐ)',
+                    data: revenueData, // Tiền nằm trên trục Y
+                    backgroundColor: 'rgba(25, 135, 84, 0.7)', // Màu xanh lá trong suốt
+                    borderColor: 'rgba(25, 135, 84, 1)', // Viền xanh đậm
+                    borderWidth: 2,
+                    borderRadius: 5 // Bo góc cột cho đẹp
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            // Format lại số tiền trong khung chú thích (VD: 150,000 đ)
+                            label: function (context) {
+                                let value = context.raw || 0;
+                                return value.toLocaleString('vi-VN') + ' đ';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            // Format số tiền ở trục dọc
+                            callback: function (value) {
+                                return value.toLocaleString('vi-VN') + ' đ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

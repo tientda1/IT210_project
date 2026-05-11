@@ -40,10 +40,10 @@
                     <h5 class="card-title fw-bold text-dark text-truncate" th:text="${movie.title}">Tên Phim</h5>
 
                     <p class="card-text text-muted small mb-2">
-                        <i class="bi bi-tags-fill text-warning"></i> Thể loại: <span
-                            th:text="${movie.genre != null ? movie.genre.genreName : 'Đang cập nhật'}"></span><br>
-                        <i class="bi bi-clock-fill text-info"></i> Thời lượng: <span
-                            th:text="${movie.durationMinutes + ' phút'}"></span>
+                        <i class="bi bi-person-video text-primary"></i> Đạo diễn: <strong th:text="${movie.director}"></strong><br>
+
+                        <i class="bi bi-tags-fill text-warning"></i> Thể loại: <strong th:text="${movie.genre != null ? movie.genre.genreName : 'Đang cập nhật'}"></strong><br>
+                        <i class="bi bi-clock-fill text-info"></i> Thời lượng: <span th:text="${movie.durationMinutes + ' phút'}"></span>
                     </p>
 
                     <p class="card-text text-truncate" style="font-size: 0.9rem;" th:text="${movie.description}">Mô tả

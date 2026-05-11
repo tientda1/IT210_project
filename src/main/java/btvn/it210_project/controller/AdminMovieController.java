@@ -1,5 +1,6 @@
 package btvn.it210_project.controller;
 
+import btvn.it210_project.model.entity.Genre;
 import btvn.it210_project.model.entity.Movie;
 import btvn.it210_project.service.MovieService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminMovieController {
 
     private final MovieService movieService;
+    private final btvn.it210_project.repository.GenreRepository genreRepository;
 
     // Kiểm tra quyền Admin (Dùng chung cho các hàm)
     private boolean isAdmin(HttpSession session) {
@@ -37,11 +39,11 @@ public class AdminMovieController {
     public String showAddForm(HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
 
-        model.addAttribute("movie", new Movie()); // Truyền đối tượng rỗng xuống form
+        model.addAttribute("movie", new Movie());
+        model.addAttribute("genres", genreRepository.findAll());
         return "admin/movie-form";
     }
 
-    // 3. Hiển thị form sửa phim
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Integer id, HttpSession session, Model model) {
         if (!isAdmin(session)) return "redirect:/login";
@@ -50,21 +52,41 @@ public class AdminMovieController {
         if (movie == null) return "redirect:/admin/movies";
 
         model.addAttribute("movie", movie);
-        return "admin/movie-form"; // Dùng chung form với chức năng Thêm
+        model.addAttribute("genres", genreRepository.findAll());
+        return "admin/movie-form";
     }
 
     // 4. Xử lý lưu phim (Dùng cho cả Thêm và Sửa)
     @PostMapping("/save")
     public String saveMovie(@Valid @ModelAttribute("movie") Movie movie,
                             BindingResult bindingResult,
+                            @RequestParam("genreName") String genreName, // HỨNG CHỮ ADMIN GÕ VÀO ĐÂY
                             HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
 
-        // Nếu có lỗi do nhập sai quy tắc -> Trả lại thẳng trang Form để hiện lỗi (không redirect)
+        // Nếu có lỗi do nhập sai quy tắc (Tên trống, thời lượng ngắn...)
         if (bindingResult.hasErrors()) {
             return "admin/movie-form";
         }
 
+        // LOGIC XỬ LÝ THỂ LOẠI THÔNG MINH
+        if (genreName != null && !genreName.trim().isEmpty()) {
+            String finalGenreName = genreName.trim();
+
+            // Tìm trong Database xem thể loại này đã tồn tại chưa
+            Genre genre = genreRepository.findByGenreNameIgnoreCase(finalGenreName)
+                    .orElseGet(() -> {
+                        // NẾU CHƯA CÓ: Tự động tạo thể loại mới tinh và lưu vào Database
+                        Genre newGenre = new Genre();
+                        newGenre.setGenreName(finalGenreName);
+                        return genreRepository.save(newGenre);
+                    });
+
+            // Gắn thể loại (cũ hoặc vừa tạo mới) vào bộ phim
+            movie.setGenre(genre);
+        }
+
+        // Cuối cùng, lưu phim vào DB
         movieService.saveMovie(movie);
         return "redirect:/admin/movies";
     }

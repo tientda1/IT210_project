@@ -36,6 +36,7 @@
                     <th class="ps-3">ID</th>
                     <th>Poster</th>
                     <th>Tên Phim</th>
+                    <th>Đạo diễn</th>
                     <th>Thể loại</th>
                     <th>Thời lượng</th>
                     <th>Ngày khởi chiếu</th>
@@ -49,6 +50,9 @@
                         <img th:src="${movie.posterUrl}" width="50" height="75" class="rounded shadow-sm" alt="Poster">
                     </td>
                     <td class="align-middle"><strong th:text="${movie.title}"></strong></td>
+
+                    <td class="align-middle" th:text="${movie.director}"></td>
+
                     <td class="align-middle" th:text="${movie.genre != null ? movie.genre.genreName : 'N/A'}"></td>
                     <td class="align-middle" th:text="${movie.durationMinutes + ' phút'}"></td>
                     <td class="align-middle" th:text="${movie.releaseDate}"></td>
@@ -65,7 +69,7 @@
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(movies)}">
-                    <td colspan="7" class="text-center py-4 text-muted">Chưa có bộ phim nào trong hệ thống.</td>
+                    <td colspan="8" class="text-center py-4 text-muted">Chưa có bộ phim nào trong hệ thống.</td>
                 </tr>
                 </tbody>
             </table>

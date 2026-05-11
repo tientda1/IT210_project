@@ -16,41 +16,63 @@
                         th:text="${movie.movieId == null ? 'Thêm Phim Mới' : 'Cập Nhật Thông Tin Phim'}"></h4>
                 </div>
                 <div class="card-body p-4">
-                    <form th:action="@{/admin/movies/save}" method="post" th:object="${movie}">
+                    <form th:action="@{/admin/movies/save}" th:object="${movie}" method="post">
                         <input type="hidden" th:field="*{movieId}"/>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Tiêu đề phim</label>
                             <input type="text" th:field="*{title}" class="form-control"
-                                   placeholder="VD: Avengers: Endgame" required/>
+                                   placeholder="VD: Avengers: Endgame"/>
+                            <small class="text-danger fw-bold" th:if="${#fields.hasErrors('title')}"
+                                   th:errors="*{title}"></small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Đạo diễn</label>
+                                <input type="text" th:field="*{director}" class="form-control"
+                                       placeholder="VD: Anthony Russo"/>
+                                <small class="text-danger fw-bold" th:if="${#fields.hasErrors('director')}"
+                                       th:errors="*{director}"></small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Thể loại</label>
+                                <input type="text" name="genreName" class="form-control"
+                                       th:value="${movie.genre != null ? movie.genre.genreName : ''}"
+                                       placeholder="VD: Khoa học viễn tưởng..."/>
+                            </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Mô tả nội dung</label>
                             <textarea th:field="*{description}" class="form-control" rows="4"
-                                      placeholder="Tóm tắt nội dung phim..."></textarea>
+                                      placeholder="Nhập tóm tắt phim..."></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Thời lượng (phút)</label>
-                                <input type="number" th:field="*{durationMinutes}" class="form-control" required/>
+                                <input type="number" th:field="*{durationMinutes}" class="form-control"
+                                       placeholder="VD: 120"/>
+                                <small class="text-danger fw-bold" th:if="${#fields.hasErrors('durationMinutes')}"
+                                       th:errors="*{durationMinutes}"></small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Ngày khởi chiếu</label>
-                                <input type="date" th:field="*{releaseDate}" class="form-control" required/>
+                                <input type="date" th:field="*{releaseDate}" class="form-control"/>
+                                <small class="text-danger fw-bold" th:if="${#fields.hasErrors('releaseDate')}"
+                                       th:errors="*{releaseDate}"></small>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold">Đường dẫn Poster (URL)</label>
-                            <input type="text" th:field="*{posterUrl}" class="form-control"
-                                   placeholder="https://image.com/poster.jpg"/>
+                            <input type="text" th:field="*{posterUrl}" class="form-control" placeholder="https://..."/>
                         </div>
 
-                        <div class="d-flex gap-2 border-top pt-4">
+                        <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary px-4 fw-bold">Lưu thông tin</button>
-                            <a th:href="@{/admin/movies}" class="btn btn-secondary px-4">Hủy bỏ</a>
+                            <a th:href="@{/admin/movies}" class="btn btn-secondary px-4 fw-bold">Hủy bỏ</a>
                         </div>
                     </form>
                 </div>
