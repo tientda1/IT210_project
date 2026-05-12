@@ -23,7 +23,7 @@ public class AdminReportController {
     public String showRevenueReport(HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null || !"ADMIN".equals(user.getRole())) {
-            return "redirect:/login"; // Cấm cửa nếu không phải Admin
+            return "redirect:/login";
         }
 
         // Gọi DB lấy dữ liệu thô (Mảng Object gồm [Tên phim, Tổng tiền])

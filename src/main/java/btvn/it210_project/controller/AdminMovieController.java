@@ -19,7 +19,7 @@ public class AdminMovieController {
     private final MovieService movieService;
     private final btvn.it210_project.repository.GenreRepository genreRepository;
 
-    // Kiểm tra quyền Admin (Dùng chung cho các hàm)
+    // Kiểm tra quyền Admin
     private boolean isAdmin(HttpSession session) {
         btvn.it210_project.model.entity.User user = (btvn.it210_project.model.entity.User) session.getAttribute("loggedInUser");
         return user != null && "ADMIN".equals(user.getRole());
@@ -28,7 +28,7 @@ public class AdminMovieController {
     // 1. Hiển thị danh sách phim
     @GetMapping
     public String listMovies(HttpSession session, Model model) {
-        if (!isAdmin(session)) return "redirect:/login"; // Đuổi ra nếu không phải Admin
+        if (!isAdmin(session)) return "redirect:/login";
 
         model.addAttribute("movies", movieService.getAllMovies());
         return "admin/movie-list";
@@ -60,7 +60,7 @@ public class AdminMovieController {
     @PostMapping("/save")
     public String saveMovie(@Valid @ModelAttribute("movie") Movie movie,
                             BindingResult bindingResult,
-                            @RequestParam("genreName") String genreName, // HỨNG CHỮ ADMIN GÕ VÀO ĐÂY
+                            @RequestParam("genreName") String genreName,
                             HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
 

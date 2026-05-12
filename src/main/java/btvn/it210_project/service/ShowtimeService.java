@@ -15,7 +15,6 @@ import java.util.List;
 public class ShowtimeService {
 
     private final ShowtimeRepository showtimeRepository;
-    // Cần gọi MovieRepository để tra cứu thời lượng phim
     private final MovieRepository movieRepository;
 
     // Lấy toàn bộ danh sách suất chiếu cho Admin quản lý

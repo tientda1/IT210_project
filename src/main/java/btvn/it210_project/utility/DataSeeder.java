@@ -67,7 +67,7 @@ public class DataSeeder implements CommandLineRunner {
             userRepository.save(admin);
         }
 
-        // 4. TỰ ĐỘNG TẠO SƠ ĐỒ GHẾ (THỦ PHẠM LÀ ĐÂY)
+        // 4. TỰ ĐỘNG TẠO SƠ ĐỒ GHẾ
         if (seatRepository.count() == 0) {
             List<Room> rooms = roomRepository.findAll();
             List<Seat> seatsToSave = new ArrayList<>();
@@ -84,7 +84,7 @@ public class DataSeeder implements CommandLineRunner {
                     for (int j = 1; j <= seatsPerRow; j++) {
                         Seat seat = new Seat();
                         seat.setRoom(room);
-                        seat.setSeatName(String.valueOf((char) (rowChar + i)) + j); // Ghép tên: A1, A2...
+                        seat.setSeatName(String.valueOf((char) (rowChar + i)) + j);
                         seatsToSave.add(seat);
                     }
                 }

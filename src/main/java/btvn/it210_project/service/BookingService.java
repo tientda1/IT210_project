@@ -19,7 +19,7 @@ public class BookingService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
 
-    @Transactional // QUAN TRỌNG: Đảm bảo Rollback nếu có lỗi giữa chừng
+    @Transactional
     public void processBooking(Integer userId, Integer showtimeId, List<Integer> seatIds) {
         User user = userRepository.findById(userId).orElseThrow();
         Showtime showtime = showtimeRepository.findById(showtimeId).orElseThrow();
